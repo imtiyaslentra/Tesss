@@ -913,6 +913,739 @@ autoparryvar = RunService.Heartbeat:Connect(function()
         aura_table.is_ball_Warping = true
     end)
 
+    -- Predecir la posición de laOnce(function()
+        aura_table.canParry = true
+    end)
+
+    if self:GetAttribute('target') ~= local_player.Name or not aura_table.canParry then
+        return
+    end
+
+    self:GetAttributeChangedSignal('from'):Once(function()
+        aura_table.last_target = workspace.Alive:FindFirstChild(self:GetAttribute('from'))
+    end)
+
+    get_closest_entity(local_player.Character.PrimaryPart)
+
+    local player_Position = local_player.Character.PrimaryPart.Position
+    local ball_Position = self.Position
+    local ball_Velocity = self.AssemblyLinearVelocity
+
+    if self:FindFirstChild("zoomies") then
+        ball_Velocity = self.zoomies.VectorVelocity
+    end
+
+    local ball_Direction = (player_Position - ball_Position).Unit
+    local ball_Distance = (player_Position - ball_Position).Magnitude
+    local ball_Dot = ball_Direction:Dot(ball_Velocity.Unit)
+    local ball_Speed = ball_Velocity.Magnitude
+
+    -- Detección de la bola
+    local ball_properties = {}
+    ball_properties.position = ball_Position
+    ball_properties.velocity = ball_Velocity
+    ball_properties.distance = (local_player.Character.PrimaryPart.Position - ball_properties.position).Magnitude
+    ball_properties.speed = ball_properties.velocity.Magnitude
+    ball_properties.direction = (local_player.Character.PrimaryPart.Position - ball_properties.position).Unit
+    ball_properties.dot = ball_properties.direction:Dot(ball_properties.velocity.Unit)
+    ball_properties.radians = math.rad(math.asin(ball_properties.dot))
+
+    if ball_properties.dot < -0.2 then
+        aura_table.ball_Warping = tick()
+    end
+
+    -- Anti-curve mechanism
+    if ball_Speed < 25 or ball_Velocity.Y > 10 then
+        aura_table.hit_Time = tick() * 10
+        aura_table.hit_Count = 0
+        aura_table.is_ball_Warping = false
+        aura_table.is_Spamming = false
+        aura_table.canParry = true
+        aura_table.last_target = nil
+    end
+
+    local player_Velocity = local_player.Character.HumanoidRootPart.AssemblyLinearVelocity
+    local player_isMoving = player_Velocity.Magnitude > 0
+    local ball_speed_Limited = math.min(ball_Speed / 1000, 0.1)
+    local targetPosition = closest_Entity_To_mouse.HumanoidRootPart.Position
+    local target_Distance = local_player:DistanceFromCharacter(targetPosition)
+    local closest_target_Distance = local_player:DistanceFromCharacter(closest_Entity.HumanoidRootPart.Position)
+    local target_distance_Limited = math.min(target_Distance / 10000, 0.1)
+    local target_Direction = (local_player.Character.PrimaryPart.Position - closest_Entity.HumanoidRootPart.Position).Unit
+    local target_Velocity = closest_Entity.HumanoidRootPart.AssemblyLinearVelocity
+    local target_isMoving = target_Velocity.Magnitude > 0
+    local target_Dot = target_isMoving and math.max(target_Direction:Dot(target_Velocity.Unit), 0)
+
+    aura_table.spam_Range = math.clamp(math.max(math.max(ping / 8.5, 15) + ball_Speed / 7.5, 8.4), 25, 1200)
+    speedFactor = 3 - (ping / 100)
+    speedFactorPingBased = 6.1 - (ping / 100)
+    aura_table.parry_Range = math.max(math.max(ping, 3.5) + ball_Speed / speedFactor, speedFactorPingBased)
+
+    aura_table.is_Spamming = aura_table.hit_Count > 1 or (target_Distance <= aura_table.spam_Range and ball_Distance < 18 and ball_Speed > 8) and ball_Velocity.Y > -50 and ball_Dot > 0.15
+
+    task.spawn(function()
+        if (tick() - aura_table.ball_Warping) >= 0.15 + target_distance_Limited - ball_speed_Limited or ball_Distance <= 10 then
+            aura_table.is_ball_Warping = false
+            return
+        end
+
+        if aura_table.lOnce(function()
+        aura_table.canParry = true
+    end)
+
+    if self:GetAttribute('target') ~= local_player.Name or not aura_table.canParry then
+        return
+    end
+
+    self:GetAttributeChangedSignal('from'):Once(function()
+        aura_table.last_target = workspace.Alive:FindFirstChild(self:GetAttribute('from'))
+    end)
+
+    get_closest_entity(local_player.Character.PrimaryPart)
+
+    local player_Position = local_player.Character.PrimaryPart.Position
+    local ball_Position = self.Position
+    local ball_Velocity = self.AssemblyLinearVelocity
+
+    if self:FindFirstChild("zoomies") then
+        ball_Velocity = self.zoomies.VectorVelocity
+    end
+
+    local ball_Direction = (player_Position - ball_Position).Unit
+    local ball_Distance = (player_Position - ball_Position).Magnitude
+    local ball_Dot = ball_Direction:Dot(ball_Velocity.Unit)
+    local ball_Speed = ball_Velocity.Magnitude
+
+    -- Detección de la bola
+    local ball_properties = {}
+    ball_properties.position = ball_Position
+    ball_properties.velocity = ball_Velocity
+    ball_properties.distance = (local_player.Character.PrimaryPart.Position - ball_properties.position).Magnitude
+    ball_properties.speed = ball_properties.velocity.Magnitude
+    ball_properties.direction = (local_player.Character.PrimaryPart.Position - ball_properties.position).Unit
+    ball_properties.dot = ball_properties.direction:Dot(ball_properties.velocity.Unit)
+    ball_properties.radians = math.rad(math.asin(ball_properties.dot))
+
+    if ball_properties.dot < -0.2 then
+        aura_table.ball_Warping = tick()
+    end
+
+-- Anti-curve mechanism
+if ball_Speed < 25 or ball_Velocity.Y > 10 then
+    aura_table.hit_Time = tick() * 10
+    aura_table.hit_Count = 0
+    aura_table.is_ball_Warping = false
+    aura_table.is_Spamming = false
+    aura_table.canParry = true
+    aura_table.last_target = nil
+end
+
+local player_Velocity = local_player.Character.HumanoidRootPart.AssemblyLinearVelocity
+local player_isMoving = player_Velocity.Magnitude > 0
+local ball_speed_Limited = math.min(ball_Speed / 1000, 0.1)
+local targetPosition = closest_Entity_To_mouse.HumanoidRootPart.Position
+local target_Distance = local_player:DistanceFromCharacter(targetPosition)
+local closest_target_Distance = local_player:DistanceFromCharacter(closest_Entity.HumanoidRootPart.Position)
+local target_distance_Limited = math.min(target_Distance / 10000, 0.1)
+local target_Direction = (local_player.Character.PrimaryPart.Position - closest_Entity.HumanoidRootPart.Position).Unit
+local target_Velocity = closest_Entity.HumanoidRootPart.AssemblyLinearVelocity
+local target_isMoving = target_Velocity.Magnitude > 0
+local target_Dot = target_isMoving and math.max(target_Direction:Dot(target_Velocity.Unit), 0)
+
+aura_table.spam_Range = math.clamp(math.max(math.max(ping / 8.5, 15) + ball_Speed / 7.5, 8.4), 25, 1200)
+speedFactor = 3 - (ping / 100)
+speedFactorPingBased = 6.1 - (ping / 100)
+aura_table.parry_Range = math.max(math.max(ping, 3.5) + ball_Speed / speedFactor, speedFactorPingBased)
+
+-- Additional Anti-curve mechanism
+local ball_Position_Change = ball_Velocity.Magnitude - previous_ball_Velocity.Magnitude
+if math.abs(ball_Position_Change) > 15 then -- Deteksi perubahan arah yang tajam
+    aura_table.is_ball_Curving = true
+else
+    aura_table.is_ball_Curving = false
+end
+previous_ball_Velocity = ball_Velocity
+
+aura_table.is_Spamming = aura_table.hit_Count > 1 or (target_Distance <= aura_table.spam_Range and ball_Distance < 18 and ball_Speed > 8) and ball_Velocity.Y > -50 and ball_Dot > 0.15
+
+-- Sharp curve handling
+task.spawn(function()
+    if (tick() - aura_table.ball_Warping) >= 0.15 + target_distance_Limited - ball_speed_Limited or ball_Distance <= 10 then
+        aura_table.is_ball_Warping = false
+        return
+    end
+
+    if aura_table.last_target then
+        if (ball_Position - aura_table.last_target.HumanoidRootPart.Position).Magnitude > 35.5 or target_Distance <= 12 then
+            aura_table.is_ball_Warping = false
+        end
+    end
+
+    -- Additional condition for fast ball handling
+    if ball_Speed > 100 and ball_Velocity.Y < -50 then
+        aura_table.is_ball_Warping = true
+    else
+        aura_table.is_ball_Warping = true
+    end
+end)
+	     
+    -- Predecir la posición de la pelota
+    local predicted_ball_Position = linear_predict(ball_Position, ball_Position + ball_Velocity * (ping / 100), 0.5)
+ast_target then
+            if (ball_Position - aura_table.last_target.HumanoidRootPart.Position).Magnitude > 35.5 or target_Distance <= 12 then
+                aura_table.is_ball_Warping = false
+            end
+        end
+
+        aura_table.is_ball_Warping = true
+    end)
+
+    -- Predecir la posición de la pelota
+    local predicted_ball_Position = linear_predict(ball_Position, ball_Position + ball_Velocity * (ping / 100), 0.5)
+ pelota
+    local predicted_ball_Position = linear_predict(ball_Position, ball_Position + ball_Velocity * (ping / 100), 0.5)
+
+    if ball_Distance <= aura_table.parry_Range and not aura_table.is_ball_Warping and ball_Speed > 0 and ball_Dot > 0.1 then
+        local cf = camera.CFrame
+        local target_X = targetPosition.X
+        local target_Y = targetPosition.Y
+
+        originalParryRemote:FireServer(
+            0,
+            CFrame.new(cf.Position, predicted_ball_Position),
+            {[closest_Entity_To_mouse.Name] = targetPosition},
+            {target_X, target_Y},
+            false
+        )
+
+        aura_table.hit_Count = aura_table.hit_Count + 1
+        task.delay(0.55 + (ping / 100), function()
+            aura_table.hit_Count = aura_table.hit_Count - 1
+        end)
+
+        aura_table.hit_Time = tick()
+        aura_table.canParry = false
+    end
+
+    task.spawn(function()
+        repeat
+            RunService.PreRender:Wait()
+        until (tick() - aura_table.hit_Time) >= 1
+        aura_table.canParry = true
+    end)
+end)
+end)
+
+-- Define a safe disconnect function to avoid errors
+local function safeDisconnect(connection)
+    if connection and connection.Disconnect then
+        connection:Disconnect()
+    end
+end
+
+-- Function to manage connections
+local function manageConnection(flag, varName, runServiceFunc)
+    if flag then
+        if not _G[varName] then
+            -- Create the RunService connection if the flag is true and connection is not already created
+            _G[varName] = RunService[runServiceFunc]:Connect(function()
+                -- Your code for what the connection does
+            end)
+        end
+    else
+        -- Disconnect and clear the connection if the flag is false
+        safeDisconnect(_G[varName])
+        _G[varName] = nil
+    end
+end
+
+-- Main loop running on Heartbeat
+RunService.Heartbeat:Connect(function()
+    manageConnection(visualize_Enabled, "visualizervar", "Heartbeat")
+    manageConnection(auto_spam, "autospamvar", "Heartbeat")
+    manageConnection(aura_Enabled, "autoparryvar", "Heartbeat")
+    manageConnection(tp_hit, "tphitvar", "Heartbeat")
+    manageConnection(auto_win, "autowinvar", "Heartbeat")
+    manageConnection(ai_Enabled, "aivar", "RenderStepped")
+end)
+--[[ to prevent mishaps this linebof code of the ui starts here]]--
+				
+
+--// Services
+local UserInputService = game:GetService("UserInputService");
+
+--// Library
+
+ 				
+
+				
+	
+
+												
+		
+local NoHyper = loadstring(game:HttpGet(("https://raw.githubusercontent.com/3345-c-a-t-s-u-s/NoHyperLib/refs/heads/main/source.dll")))()
+
+
+NoHyper.set_theme('neverlose') -- [[Rudert]]
+
+local Window = NoHyper.new('Star X - Blade ball',"rbxassetid://93079131828771",'The Smootest, Nicest Blade Ball Script') -- My Logo you can replace it
+Window:NewSize(UDim2.new(0.1,430,0.1,300))
+
+Window:AddYoutube('https://youtube/')
+Window:AddWebsite('https://')
+Window:AddDiscord('https://discord.com/invite/')
+
+local General = Window:NewTab('Main','earth') -- [[Icon: ads list folder earth locked home positon notify close color]]
+local Par = General:NewSection('Parry','','left') -- [left , right]
+local Cur = General:NewSection('Curves','','right')
+local Far = General:NewSection('Farm','','left') -- [left , right]
+local Deb = General:NewSection('Debug','','right')
+
+    	
+    	
+    	
+Par:AddToggle('Auto Parry',false,function(state)
+    auto_spam = state
+    	aura_Enabled = state
+end)
+    	
+Par:AddDropdown('Method',{Legit,Rage},Rage,function(value)
+    print('select ',value)
+end)	
+    	
+Par:AddToggle('Stand Alone mode',false,function(state)
+    standalone = state
+end)
+    	
+Par:AddToggle('Manual spam',false,function(state)
+            if state then
+            ManualSpam()
+            else 
+            ManualSpam()
+            end
+end)
+    	
+Cur:AddToggle('Auto Curve',false,function(state)
+    auto_curve = state
+end)
+    	
+Cur:AddToggle('Anti Curve',false,function(state)
+    anti_curve_spam_Enabled = state
+end)	
+    	
+Far:AddToggle('Ai Play',false,function(state)
+    ai_Enabled = state
+end)	
+    	
+Far:AddToggle('Tele Hit',false,function(state)
+    tp_hit = state
+end)	
+    	
+Far:AddToggle('Rage Farm',local self = Nurysium_Util.getBall()
+	wait(0.1)
+	local Visualize = Instance.new("Part",workspace)
+	local Visualize1 = Instance.new("Part",workspace)
+	wait(0.5)
+	Visualize.Color = Color3.new(0, 1, 0)
+	Visualize.Material = Enum.Material.ForceField
+	Visualize.Transparency = 0.5
+	Visualize.Anchored = true
+	Visualize.CanCollide = false
+	Visualize.CastShadow = false
+	Visualize.Shape = Enum.PartType.Ball
+	Visualize.Size = Vector3.new(30,30,30)
+	Visualize1.Color = Color3.new(1, 0, 0)
+	Visualize1.Material = Enum.Material.ForceField
+	Visualize1.Transparency = 0.5
+	Visualize1.Anchored = true
+	Visualize1.CanCollide = false
+	Visualize1.CastShadow = false
+	Visualize1.Shape = Enum.PartType.Ball
+	Visualize1.Size = Vector3.new(aura_table.spam_Range, aura_table.spam_Range, aura_table.spam_Range)
+
+	local Highlight1 = Instance.new("Highlight")
+	Highlight1.Parent = Visualize1
+	Highlight1.Enabled = true
+	Highlight1.FillTransparency = 0
+	Highlight1.OutlineColor = Color3.new(1, 1, 1)
+	local Highlight = Instance.new("Highlight")
+	Highlight.Parent = Visualize
+	Highlight.Enabled = true
+	Highlight.FillTransparency = 0
+	Highlight.OutlineColor = Color3.new(1, 1, 1)
+	
+task.spawn(function()
+	visualizervar = RunService.RenderStepped:Connect(function()
+		if visualize_Enabled then
+			Visualize.Transparency = 0
+			Visualize.Material = Enum.Material.ForceField
+			Visualize.Size = Vector3.new(aura_table.parry_Range, aura_table.parry_Range, aura_table.parry_Range)
+			Visualize.CFrame = CFrame.new(local_player.Character.PrimaryPart.Position)
+			Visualize1.Transparency = 0
+			Visualize1.Material = Enum.Material.ForceField
+			Visualize1.Size = Vector3.new(aura_table.spam_Range, aura_table.spam_Range, aura_table.spam_Range)
+			Visualize1.CFrame = CFrame.new(local_player.Character.PrimaryPart.Position)
+		else
+			Visualize.Material = Enum.Material.ForceField
+			Visualize.Transparency = 1
+			Visualize1.Material = Enum.Material.ForceField
+			Visualize1.Transparency = 1
+		end	
+	end)
+end)
+
+function getClosestEntityToMouse()
+	local closest = nil
+	local shortestDistance = math.huge
+	local mouse = game.Players.LocalPlayer:GetMouse()
+
+	-- Ensure workspace.Alive exists
+	if not workspace:FindFirstChild("Alive") then
+		return nil
+	end
+
+	-- Loop through all entities
+	for _, entity in pairs(workspace.Alive:GetChildren()) do
+		if entity:IsA("Model") then
+			local humanoidRootPart = entity:FindFirstChild("HumanoidRootPart")
+			if humanoidRootPart then
+				-- Convert world position to screen position
+				local screenPoint = camera:WorldToViewportPoint(humanoidRootPart.Position)
+				local distanceToMouse = (Vector2.new(screenPoint.X, screenPoint.Y) - Vector2.new(mouse.X, mouse.Y)).Magnitude
+
+				-- Check if this is the closest entity so far
+				if distanceToMouse < shortestDistance then
+					closest = entity
+					shortestDistance = distanceToMouse
+				end
+			else
+				
+			end
+		else
+			
+		end
+	end
+
+	-- If no closest entity is found, warn the user
+	if not closest then
+		
+	else
+		
+	end
+
+	return closest
+end
+
+task.defer(function()
+    local runService = game:GetService("RunService")
+    local Players = game:GetService("Players")
+
+    local function avoidWalls(startPos, targetPos)
+        local direction = (targetPos - startPos).Unit
+        local ray = Ray.new(startPos, direction * 10)
+        local hit, hitPosition = workspace:FindPartOnRay(ray, local_player.Character)
+
+        if hit then
+            -- Wall detected, adjust path
+            local adjustedDir = (targetPos - hitPosition).Unit + Vector3.new(0, 0, 0.5) -- Simple adjustment
+            return startPos + adjustedDir * 10
+        end
+return targetPos
+    end
+
+    aivar = runService.Heartbeat:Connect(function()
+        if not ai_Enabled or not workspace.Alive:FindFirstChild(local_player.Name) then
+            return
+        end
+
+        local self = Nurysium_Util.getBall()
+        if not self or not closest_Entity then
+            return
+        end
+
+        local hrp = closest_Entity:FindFirstChild('HumanoidRootPart')
+        if not hrp then
+            walk_to(local_player.Character.HumanoidRootPart.Position + Vector3.new(math.sin(tick()) * math.random(35, 50), 0, math.cos(tick()) * math.random(35, 50)))
+            return
+        end
+
+        local tickNow = tick()
+        local tickMod = tickNow % 4
+        local ball_Position = self.Position
+        local ball_Distance = local_player:DistanceFromCharacter(ball_Position)
+        local player_Position = local_player.Character.PrimaryPart.Position
+        local target_Position = hrp.Position
+        local target_Distance = local_player:DistanceFromCharacter(target_Position)
+        local target_LookVector = hrp.CFrame.LookVector
+        local resolved_Position = Vector3.zero
+
+        local target_Humanoid = closest_Entity:FindFirstChildOfClass("Humanoid")
+        if target_Humanoid and target_Humanoid:GetState() == Enum.HumanoidStateType.Jumping and local_player.Character.Humanoid.FloorMaterial ~= Enum.Material.Air then
+            local_player.Character.Humanoid:ChangeState(Enum.HumanoidStateType.Jumping)
+        end
+
+        if (ball_Position - player_Position):Dot(local_player.Character.PrimaryPart.CFrame.LookVector) < -0.2 and tickMod <= 2 then
+            return
+        end
+
+        -- Maintain distance or get close depending on spamming state
+        if aura_table.is_Spamming then
+            -- When spamming, move closer to the target
+            if tickMod <= 2 then
+                resolved_Position = target_Position + (player_Position - target_Position).Unit * 8
+            else
+                resolved_Position = target_Position - target_LookVector * (math.random(8.5, 13.5) + (ball_Distance / math.random(8, 20)))
+            end
+        else
+            -- Avoid getting too close to other players when not spamming
+            for _, player in pairs(Players:GetPlayers()) do
+                if player ~= local_player and workspace.Alive:FindFirstChild(player.Name) then
+                    local otherPlayerPos = player.Character and player.Character.PrimaryPart.Position
+                    if otherPlayerPos and (player_Position - otherPlayerPos).Magnitude < 10 then
+                        local avoidanceVector = (player_Position - otherPlayerPos).Unit * 15
+                        player_Position = player_Position + avoidanceVector
+                    end
+                end
+            end
+
+            -- Regular pathfinding when not spamming
+            if tickMod <= 2 then
+                resolved_Position = target_Distance > 10 and target_Position + (player_Position - target_Position).Unit * 25
+            else
+                resolved_Position = target_Position - target_LookVector * (math.random(8.5, 13.5) + (ball_Distance / math.random(8, 20)))
+            end
+        end
+
+        if (player_Position - target_Position).Magnitude < 8 then
+            resolved_Position = target_Position + (player_Position - target_Position).Unit * 35
+        end
+
+        if ball_Distance < 8 then
+            resolved_Position = player_Position + (player_Position - ball_Position).Unit * 10
+        end
+
+        -- Avoid walls before walking
+        resolved_Position = avoidWalls(player_Position, resolved_Position)
+
+        walk_to(resolved_Position + Vector3.new(math.sin(tickNow) * 10, 0, math.cos(tickNow) * 10))
+    end)
+end)
+
+task.defer(function()
+	autowinvar = RunService.Stepped:Connect(function()
+		if auto_win and workspace.Alive:FindFirstChild(local_player.Name) then
+			local self = Nurysium_Util.getBall()
+			if not self then return end
+			
+			local player = local_player.Character
+			local ball_Position = self.Position
+			local ball_Distance = (player.HumanoidRootPart.Position - ball_Position).Magnitude
+			
+			
+			local ping = game:GetService("Stats"):FindFirstChild("PerformanceStats"):FindFirstChild("Ping"):GetValue() or 0
+			local adjusted_Distance = math.clamp(15 + (ping / 50), 15, 50)
+
+			local angle = tick() * 2
+			local offset = Vector3.new(math.cos(angle) * adjusted_Distance, math.sin(angle) * 5, math.sin(angle) * adjusted_Distance)
+			local target_Position = ball_Position + offset
+
+			
+			player.HumanoidRootPart.CFrame = CFrame.new(target_Position, ball_Position)
+		end
+	end)
+	tphitvar = RunService.Heartbeat:Connect(function()
+        	local self = Nurysium_Util.getBall()
+	if not self or not tp_hit then return end
+	local player = local_player.Character
+	local ball_Position = self.Position
+
+	if tp_hit and self:GetAttribute('target') == local_player.Name and workspace.Alive:FindFirstChild(local_player.Name) then
+
+		local safe_Distance = 10
+		local direction = (ball_Position - player.HumanoidRootPart.Position).Unit
+		local target_Position = ball_Position - direction * safe_Distance
+
+		player.HumanoidRootPart.CFrame = CFrame.new(target_Position)
+	end
+    end)
+end)
+
+local closest_Entity_To_mouse = nil
+local Takentime = tick() - aura_table.hit_Time
+RunService.Heartbeat:Connect(function()
+Takentime = tick() - aura_table.hit_Time
+	task.spawn(function()
+		closest_Entity_To_mouse = getClosestEntityToMouse()
+	end)
+end)
+
+task.spawn(function()
+    autospamvar = RunService.Heartbeat:Connect(function()
+        if not auto_spam or not workspace.Alive:FindFirstChild(local_player.Name) or training_mode then
+            aura_table.hit_Count = 0
+            aura_table.is_Spamming = false
+            aura_table.last_target = nil
+            ismyautoparryspamming = false
+            aura_table.spam_Range = 0
+            return
+        end
+
+        if closest_Entity and workspace.Alive:FindFirstChild(closest_Entity.Name) and ((not standalone and aura_table.is_Spamming) or (standalone)) then
+            local playerPosition = local_player.Character.PrimaryPart.Position
+            local entityPosition = closest_Entity.HumanoidRootPart.Position
+            local distanceToEntity = local_player:DistanceFromCharacter(entityPosition)
+
+            if distanceToEntity <= aura_table.spam_Range then
+                ismyautoparryspamming = true
+
+                local cf = camera.CFrame
+                local direction = (entityPosition - playerPosition).Unit
+                local offset = Vector3.new(math.random(-50, 50), math.random(-10, 10), math.random(-50, 50))
+                local randomTarget = entityPosition + direction * 50 + offset
+                local targetPosition = closest_Entity_To_mouse.HumanoidRootPart.Position
+                local fireArgs = {
+                    {[closest_Entity_To_mouse.Name] = targetPosition},
+                    {targetPosition.X, targetPosition.Y}
+                }
+
+                task.defer(function()
+                    for count = 1, potanum do
+                        if auto_curve then
+                            originalParryRemote:FireServer(0, CFrame.new(cf.Position, randomTarget), unpack(fireArgs))
+                        else
+                            originalParryRemote:FireServer(0, cf, unpack(fireArgs))
+                        end
+                    end
+                end)
+            else
+                ismyautoparryspamming = false
+            end
+        else
+            ismyautoparryspamming = false
+        end
+    end)
+   
+
+local function linear_predict(a: Vector3, b: Vector3, time_volume: number)
+    time_volume = math.clamp(time_volume, 0, 1)
+    return a + (b - a) * time_volume
+end
+
+autoparryvar = RunService.Heartbeat:Connect(function()
+    if not aura_Enabled or not (workspace.Alive:FindFirstChild(local_player.Name) or training_mode) then
+        aura_table.hit_Time = tick() * 10
+        aura_table.hit_Count = 0
+        aura_table.is_ball_Warping = false
+        aura_table.is_Spamming = false
+        aura_table.canParry = true
+        aura_table.last_target = nil
+        return
+    end
+
+    local ping = Stats.Network.ServerStatsItem["Data Ping"]:GetValue() / 10
+    local self
+
+    if training_mode then
+        self = getTrainingBall()
+    else
+        self = Nurysium_Util.getBall()
+    end
+
+    if not self then
+        aura_table.hit_Time = tick() * 10
+        aura_table.hit_Count = 0
+        aura_table.is_ball_Warping = false
+        aura_table.is_Spamming = false
+        aura_table.canParry = true
+        aura_table.last_target = nil
+        return
+    end
+
+    self:GetAttributeChangedSignal('target'):Once(function()
+        aura_table.canParry = true
+    end)
+
+    if self:GetAttribute('target') ~= local_player.Name or not aura_table.canParry then
+        return
+    end
+
+    self:GetAttributeChangedSignal('from'):Once(function()
+        aura_table.last_target = workspace.Alive:FindFirstChild(self:GetAttribute('from'))
+    end)
+
+    get_closest_entity(local_player.Character.PrimaryPart)
+
+    local player_Position = local_player.Character.PrimaryPart.Position
+    local ball_Position = self.Position
+    local ball_Velocity = self.AssemblyLinearVelocity
+
+    if self:FindFirstChild("zoomies") then
+        ball_Velocity = self.zoomies.VectorVelocity
+    end
+
+    local ball_Direction = (player_Position - ball_Position).Unit
+    local ball_Distance = (player_Position - ball_Position).Magnitude
+    local ball_Dot = ball_Direction:Dot(ball_Velocity.Unit)
+    local ball_Speed = ball_Velocity.Magnitude
+
+    -- Detección de la bola
+    local ball_properties = {}
+    ball_properties.position = ball_Position
+    ball_properties.velocity = ball_Velocity
+    ball_properties.distance = (local_player.Character.PrimaryPart.Position - ball_properties.position).Magnitude
+    ball_properties.speed = ball_properties.velocity.Magnitude
+    ball_properties.direction = (local_player.Character.PrimaryPart.Position - ball_properties.position).Unit
+    ball_properties.dot = ball_properties.direction:Dot(ball_properties.velocity.Unit)
+    ball_properties.radians = math.rad(math.asin(ball_properties.dot))
+
+    if ball_properties.dot < -0.2 then
+        aura_table.ball_Warping = tick()
+    end
+
+    -- Anti-curve mechanism
+    if ball_Speed < 25 or ball_Velocity.Y > 10 then
+        aura_table.hit_Time = tick() * 10
+        aura_table.hit_Count = 0
+        aura_table.is_ball_Warping = false
+        aura_table.is_Spamming = false
+        aura_table.canParry = true
+        aura_table.last_target = nil
+    end
+
+    local player_Velocity = local_player.Character.HumanoidRootPart.AssemblyLinearVelocity
+    local player_isMoving = player_Velocity.Magnitude > 0
+    local ball_speed_Limited = math.min(ball_Speed / 1000, 0.1)
+    local targetPosition = closest_Entity_To_mouse.HumanoidRootPart.Position
+    local target_Distance = local_player:DistanceFromCharacter(targetPosition)
+    local closest_target_Distance = local_player:DistanceFromCharacter(closest_Entity.HumanoidRootPart.Position)
+    local target_distance_Limited = math.min(target_Distance / 10000, 0.1)
+    local target_Direction = (local_player.Character.PrimaryPart.Position - closest_Entity.HumanoidRootPart.Position).Unit
+    local target_Velocity = closest_Entity.HumanoidRootPart.AssemblyLinearVelocity
+    local target_isMoving = target_Velocity.Magnitude > 0
+    local target_Dot = target_isMoving and math.max(target_Direction:Dot(target_Velocity.Unit), 0)
+
+    aura_table.spam_Range = math.clamp(math.max(math.max(ping / 8.5, 15) + ball_Speed / 7.5, 8.4), 25, 1200)
+    speedFactor = 3 - (ping / 100)
+    speedFactorPingBased = 6.1 - (ping / 100)
+    aura_table.parry_Range = math.max(math.max(ping, 3.5) + ball_Speed / speedFactor, speedFactorPingBased)
+
+    aura_table.is_Spamming = aura_table.hit_Count > 1 or (target_Distance <= aura_table.spam_Range and ball_Distance < 18 and ball_Speed > 8) and ball_Velocity.Y > -50 and ball_Dot > 0.15
+
+    task.spawn(function()
+        if (tick() - aura_table.ball_Warping) >= 0.15 + target_distance_Limited - ball_speed_Limited or ball_Distance <= 10 then
+            aura_table.is_ball_Warping = false
+            return
+        end
+
+        if aura_table.last_target then
+            if (ball_Position - aura_table.last_target.HumanoidRootPart.Position).Magnitude > 35.5 or target_Distance <= 12 then
+                aura_table.is_ball_Warping = false
+            end
+        end
+
+        aura_table.is_ball_Warping = true
+    end)
+
     -- Predecir la posición de la pelota
     local predicted_ball_Position = linear_predict(ball_Position, ball_Position + ball_Velocity * (ping / 100), 0.5)
 
@@ -1044,11 +1777,11 @@ Cur:AddToggle('Anti Curve',false,function(state)
     anti_curve_spam_Enabled = state
 end)	
     	
-Far:AddToggle('Bot play',false,function(state)
+Far:AddToggle('Ai Play',false,function(state)
     ai_Enabled = state
 end)	
     	
-Far:AddToggle('Teleport Hit',false,function(state)
+Far:AddToggle('Tele Hit',false,function(state)
     tp_hit = state
 end)	
     	
@@ -1064,15 +1797,17 @@ Deb:AddButton('View Console',function()
     game.StarterGui:SetCore("DevConsoleVisible", true)
         wait()
 end)	
+        
+false,function(state)
+    auto_win = state
+end)		
+    	
+Deb:AddToggle('Visualise parry & spam',false,function(state)
+    visualize_Enabled = state
+end)			
 
-local TeleportService = game:GetService("TeleportService")
-
-local placeId = 121501154939356
-
-Deb:AddButton('Donate Me!', function()
-    local player = game.Players.LocalPlayer
-    if player then
-        TeleportService:Teleport(placeId, player)
-    end
-end)
+Deb:AddButton('View Console',function()
+    game.StarterGui:SetCore("DevConsoleVisible", true)
+        wait()
+end)	
         
