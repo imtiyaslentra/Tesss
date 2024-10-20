@@ -997,14 +997,14 @@ local UserInputService = game:GetService("UserInputService");
 local NoHyper = loadstring(game:HttpGet(("https://raw.githubusercontent.com/3345-c-a-t-s-u-s/NoHyperLib/refs/heads/main/source.dll")))()
 
 
-NoHyper.set_theme('neverlose') -- [[nohyper , bedol , neverlose, green]]
+NoHyper.set_theme('neverlose') -- [[Rudert]]
 
 local Window = NoHyper.new('Star X - Blade ball',"rbxassetid://93079131828771",'The Smootest, Nicest Blade Ball Script') -- My Logo you can replace it
 Window:NewSize(UDim2.new(0.1,430,0.1,300))
 
-Window:AddYoutube('https://youtube.com/@starx575')
-Window:AddWebsite('https://redhome.carrd.com')
-Window:AddDiscord('https://discord.com/invite/EwARkGncq4')
+Window:AddYoutube('https://youtube/')
+Window:AddWebsite('https://')
+Window:AddDiscord('https://discord.com/invite/')
 
 local General = Window:NewTab('Main','earth') -- [[Icon: ads list folder earth locked home positon notify close color]]
 local Par = General:NewSection('Parry','','left') -- [left , right]
